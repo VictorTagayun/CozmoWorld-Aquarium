@@ -1,18 +1,16 @@
 import cozmo
 import asyncio
-from Common.woc import WOC
-from cozmo.util import distance_mm, speed_mmps, degrees
+from cozmo.util import distance_mm, speed_mmps
 import random
 
 '''
 @class CozmoWorld
-Let Cozmo interact with objects in a world of his own and watch him enjoy himself
+Let Cozmo interact with objects in a world of his own and watch him enjoy himself in the Cozmo Aquarium World.
 @author - Wizards of Coz
 '''
 
-class CozmoWorld(WOC):    
+class CozmoWorld():    
     def __init__(self):
-        WOC.__init__(self)
         self.board_length = 250
         self.board_breadth = 200
         self.objects = None
