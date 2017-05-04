@@ -19,6 +19,7 @@ class CozmoWorld():
         cozmo.connect(self.run)    
 
     async def take_a_nap(self):
+        #Cozmo behavior - take a nap on seeing charger
         await self.robot.go_to_object(self.objects[0], distance_mm(150)).wait_for_completed()
         await self.robot.turn_in_place(cozmo.util.Angle(degrees=180)).wait_for_completed()
         await self.robot.drive_straight(distance_mm(-160), speed_mmps(20)).wait_for_completed()
@@ -30,6 +31,7 @@ class CozmoWorld():
         await self.robot.drive_straight(distance_mm(20), speed_mmps(100)).wait_for_completed()
 
     async def get_scared(self):
+        #Cozmo behavior - get scared on seeing marker on shark
         await self.robot.go_to_object(self.objects[0], distance_mm(200)).wait_for_completed()
         await self.robot.play_anim("anim_reacttocliff_edgeliftup_01").wait_for_completed()
         await self.robot.play_anim("anim_triple_backup").wait_for_completed()
@@ -37,6 +39,7 @@ class CozmoWorld():
         await self.robot.drive_straight(distance_mm(100), speed_mmps(200)).wait_for_completed()
 
     async def speak_through_megaphone(self):
+        #Cozmo behavior - speak on seeing the marker on the megaphone and immitate an echo
         await self.robot.go_to_object(self.objects[0], distance_mm(70)).wait_for_completed()
         await self.robot.say_text("Hello", duration_scalar=1, voice_pitch=-1).wait_for_completed()
         self.robot.set_robot_volume(0.2)
@@ -63,6 +66,7 @@ class CozmoWorld():
         await self.robot.turn_in_place(cozmo.util.Angle(degrees=180)).wait_for_completed()
 
     async def interact_with_treasure(self):
+        #Cozmo behavior - get wowed on seeing marker on treasure
         await self.robot.go_to_object(self.objects[0], distance_mm(100)).wait_for_completed()
         await self.robot.play_anim("anim_reacttoblock_admirecubetower_01").wait_for_completed()
         await self.robot.say_text("Treasure", duration_scalar=3, voice_pitch=0).wait_for_completed()
@@ -70,6 +74,7 @@ class CozmoWorld():
         await self.robot.turn_in_place(cozmo.util.Angle(degrees=180)).wait_for_completed()
 
     async def get_sad(self):
+        #Cozmo behavior - get sad on seeing marker on photo of his pirate father
         await self.robot.go_to_object(self.objects[0], distance_mm(100)).wait_for_completed()
         await self.robot.play_anim_trigger(cozmo.anim.Triggers.RequestGameKeepAwayDeny1).wait_for_completed()
         x = random.randrange(4)
@@ -86,6 +91,7 @@ class CozmoWorld():
         await self.robot.turn_in_place(cozmo.util.Angle(degrees=180)).wait_for_completed()
 
     async def start_program(self):
+        #setup - show Cozmo markers in order of their behavior
         await self.robot.set_head_angle(cozmo.util.Angle(degrees=20)).wait_for_completed()
         await self.robot.set_lift_height(0).wait_for_completed()
         self.robot.set_robot_volume(1)
@@ -101,6 +107,8 @@ class CozmoWorld():
                 await self.robot.say_text("Ok").wait_for_completed()
                 await asyncio.sleep(1)
             self.objects = None
+
+        #randomly assign a coordinate value Cozmo should go to, look around for a marker, do a behavior if marker seen or continue
         while True:
             x = random.randrange(self.board_length) - self.board_length/2
             y = random.randrange(self.board_breadth) - self.board_breadth/2
